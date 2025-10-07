@@ -1,23 +1,25 @@
-# --- 1. BUILDER STAGE ---
+# ---------- Stage 1: Build ----------
 FROM node:20-alpine AS builder
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+COPY package*.json ./
+RUN npm ci
 COPY . .
 RUN npm run build
 
-# --- 2. PRODUCTION RUNNER STAGE ---
-FROM node:20-slim AS runner
-RUN adduser --system --uid 1001 nextjs-user
-USER nextjs-user
+# ---------- Stage 2: Run ----------
+FROM node:20-slim
 WORKDIR /app
-ENV NODE_ENV production
-ENV PORT 3000
 
-# Copy only the standalone output and necessary assets
-COPY --from=builder --chown=nextjs-user:nextjs-user /app/.next/standalone ./
-COPY --from=builder --chown=nextjs-user:nextjs-user /app/public ./public
-COPY --from=builder --chown=nextjs-user:nextjs-user /app/.next/static ./.next/static
+# Copy standalone output from builder
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/static ./.next/static
 
-EXPOSE ${PORT}
+# Non-root user for security
+RUN useradd -m nextjs-user
+USER nextjs-user
+
+EXPOSE 3000
 CMD ["node", "server.js"]
+
+
