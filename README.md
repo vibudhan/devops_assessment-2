@@ -18,8 +18,7 @@ This project demonstrates the ability to containerize a Next.js application, set
 ## 🛠️ Prerequisites
 
 * **Git**, **Node.js / npm**
-* **Docker Desktop**
-* **Minikube**, **Kubectl**
+* **Docker Desktop**, **Minikube**, **Kubectl**
 * **Public GitHub Repository** URL: **[YOUR_REPOSITORY_URL]**
 * **GHCR Image URL:** **[ghcr.io/YOUR_GITHUB_USER/YOUR_REPO_NAME:latest]**
 
@@ -28,9 +27,8 @@ This project demonstrates the ability to containerize a Next.js application, set
 ## 💻 Local Run Commands
 
 ### Setup
-1.  **Clone:** `git clone [YOUR_REPOSITORY_URL]`
-2.  **Build Image (local):** `docker build -t nextjs-app:local .`
-3.  **Run Container:** `docker run -d -p 3000:3000 -e HOST=0.0.0.0 --name next-app-test nextjs-app:local`
+1.  **Build Image (local):** `docker build -t nextjs-app:local .`
+2.  **Run Container:** `docker run -d -p 3000:3000 -e HOST=0.0.0.0 --name next-app-test nextjs-app:local`
 
 ### Access
 * **Local Run Access:** Navigate to `http://localhost:3000`
@@ -43,21 +41,13 @@ This project demonstrates the ability to containerize a Next.js application, set
 
 ### 1. Set Minikube Context and Build Image Locally
 
-1.  Start Minikube:
-    ```bash
-    minikube start
-    ```
-2.  Switch Docker context to Minikube's internal daemon:
+1.  Switch Docker context to Minikube's internal daemon:
     ```bash
     eval $(minikube docker-env)
     ```
-3.  Build the image directly onto the Minikube node:
+2.  Build the image directly onto the Minikube node:
     ```bash
     docker build -t nextjs-app:local .
-    ```
-4.  Switch Docker context back to the host (important for cleanup):
-    ```bash
-    eval $(minikube docker-env -u)
     ```
 
 ### 2. Apply Kubernetes Manifests
@@ -68,19 +58,22 @@ This project demonstrates the ability to containerize a Next.js application, set
     kubectl apply -f k8s/
     ```
 
-### 3. How to Access the Deployed Application
+### 3. Verification Screenshots
 
-Once pods show `2/2 Running` (`kubectl get pods`), use the service command to get the final URL:
+Below is the evidence of the successful deployment:
+
+* **Successful Pods Running (2/2 Ready):**
+  <img alt="Kubectl get pods showing 2/2 running status" src="https://github.com/user-attachments/assets/9b9a90b4-06a7-41d4-90be-968f5760c84a" />
+
+* **Service Creation and URL Retrieval:**
+  <img alt="Minikube service command output with URL" src="https://github.com/user-attachments/assets/5f5cdda2-e9b9-4b1f-bdab-cf5f5693012a" />
+
+* **Final Application Access (Browser View):**
+  <img alt="Browser view of the successfully deployed Next.js application" src="https://github.com/user-attachments/assets/df5f5d59-4c2f-465d-a4de-e685775acb55" />
+
+### 4. How to Access the Deployed Application
+
+Once pods show `2/2 Running`, use the service command to get the final URL:
 
 ```bash
 minikube service nextjs-app-service --url
-
-### Output
----
-
-# Screenshots:
-<img width="940" height="385" alt="image" src="https://github.com/user-attachments/assets/df5f5d59-4c2f-465d-a4de-e685775acb55" />
-<img width="940" height="471" alt="image" src="https://github.com/user-attachments/assets/9b9a90b4-06a7-41d4-90be-968f5760c84a" />
-<img width="940" height="321" alt="image" src="https://github.com/user-attachments/assets/5f5cdda2-e9b9-4b1f-bdab-cf5f5693012a" />
-
-
