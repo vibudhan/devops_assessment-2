@@ -83,5 +83,4 @@ minikube service nextjs-app-service --url
 <img width="940" height="471" alt="image" src="https://github.com/user-attachments/assets/9b9a90b4-06a7-41d4-90be-968f5760c84a" />
 <img width="940" height="321" alt="image" src="https://github.com/user-attachments/assets/5f5cdda2-e9b9-4b1f-bdab-cf5f5693012a" />
 
----
 
